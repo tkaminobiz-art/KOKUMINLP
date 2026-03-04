@@ -58,7 +58,6 @@
     .header__logo-img {
       height: 35px;
       width: auto;
-      filter: brightness(0) invert(1);
     }
     .header__org {
       color: var(--text-white);
@@ -181,6 +180,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(135deg, var(--navy) 0%, #4A5DC7 100%);
+      z-index: 0;
     }
     .hero__bg img {
       position: absolute;
@@ -188,6 +188,16 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
+      z-index: 1;
+    }
+    .hero__bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
+      z-index: 2;
+      pointer-events: none;
     }
     .hero__inner {
       position: relative;
@@ -197,6 +207,7 @@
       height: 100%;
       display: flex;
       align-items: center;
+      z-index: 3;
     }
     .hero__text-wrap {
       position: relative;
@@ -207,7 +218,7 @@
       font-size: clamp(32px, 4.5vw, 48px);
       font-weight: 900;
       color: var(--text-white);
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4);
       margin: 0 0 8px 0;
       letter-spacing: 0.02em;
     }
@@ -215,7 +226,7 @@
       font-size: clamp(22px, 2.5vw, 32px);
       font-weight: 900;
       color: var(--text-white);
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4);
       margin: 0;
       letter-spacing: 0.05em;
     }
@@ -229,7 +240,7 @@
       bottom: 80px;
       width: 200px;
       height: auto;
-      z-index: 2;
+      z-index: 3;
     }
     .hero__banner {
       position: absolute;
@@ -237,11 +248,12 @@
       left: 0;
       right: 0;
       height: 56px;
-      background: rgba(43, 57, 144, 0.9);
+      background: rgba(43, 57, 144, 0.92);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
+      z-index: 3;
     }
     .hero__banner .header__logo-img {
       height: 28px;
@@ -365,6 +377,7 @@
     .video-sec__title {
       text-align: center;
       font-size: 14px;
+      font-weight: 500;
       color: var(--text);
       margin: 0 0 24px;
       max-width: 700px;
@@ -615,7 +628,7 @@
   <!-- S0. ヘッダー -->
   <header class="header">
     <div class="header__logo-wrap">
-      <img src="国民ロゴ.svg" alt="国民民主党" class="header__logo-img">
+      <img src="logo-white.svg" alt="国民民主党" class="header__logo-img">
       <span class="header__org">国民民主党 奈良県総支部連合会</span>
     </div>
     <nav class="header__nav">
@@ -654,17 +667,17 @@
   <!-- S1. ヒーロー -->
   <section class="hero">
     <div class="hero__bg">
-      <img src="国民FV.jpg" alt="">
+      <img src="国民FV.jpg" alt="奈良の風景">
     </div>
     <div class="hero__inner">
       <div class="hero__text-wrap">
         <p class="hero__en">Show the Flag!</p>
         <p class="hero__ja">奈良に <span class="highlight">国民民主党</span> の 旗を掲げよう</p>
       </div>
-      <img src="mascot-hero.svg" alt="" class="hero__mascot" width="200" height="250">
+      <img src="mascot-hero.svg" alt="" class="hero__mascot" width="200" height="250" aria-hidden="true">
     </div>
     <div class="hero__banner">
-      <img src="国民ロゴ.svg" alt="" class="header__logo-img">
+      <img src="logo-white.svg" alt="" class="header__logo-img">
       <span class="header__org">国民民主党 奈良県総支部連合会</span>
     </div>
   </section>
@@ -729,8 +742,8 @@
   </section>
 
   <!-- S4. ビデオメッセージ -->
-  <section class="video-sec animate-on-scroll">
-    <p class="video-sec__title">国民民主党奈良県総支部連合会設立大会ビデオメッセージ（榛葉 奈良県総支部連合会代表）</p>
+  <section class="video-sec animate-on-scroll" aria-labelledby="video-title">
+    <h2 id="video-title" class="video-sec__title">国民民主党奈良県総支部連合会設立大会ビデオメッセージ（榛葉 奈良県総支部連合会代表）</h2>
     <div class="video-sec__wrap">
       <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D573052054537882&amp;width=750&amp;show_text=false&amp;height=422&amp;appId" title="設立大会ビデオメッセージ" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
     </div>
