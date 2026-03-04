@@ -292,14 +292,6 @@
       height: auto;
       vertical-align: bottom;
     }
-    .hero__bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
-      z-index: 1;
-      pointer-events: none;
-    }
     .hero__inner {
       position: relative;
       max-width: 1100px;
@@ -530,13 +522,6 @@
       margin: 0 auto;
       position: relative;
     }
-    .mascot-decoration {
-      position: absolute;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .mascot-decoration--tr { top: -15px; right: 20px; width: 100px; }
-    .mascot-decoration--bl { bottom: -15px; left: 20px; width: 90px; }
     .ig-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -653,12 +638,22 @@
       color: var(--footer-text);
       margin: 0;
     }
-    .footer__mascot {
+    .footer__mascot-slot {
       position: absolute;
       right: 24px;
       bottom: 10px;
       width: 70px;
+      height: 72px;
+    }
+    .floating-mascot {
+      position: fixed;
+      width: 70px;
       height: auto;
+      pointer-events: none;
+      z-index: 9998;
+      left: 0;
+      top: 0;
+      transition: none;
     }
 
     /* ========== マスコット SVG（こくうさ風） ========== */
@@ -699,8 +694,7 @@
       .topics__grid { grid-template-columns: 1fr; gap: 20px; }
       .video-sec, .ig-sec, .rep { padding-left: 16px; padding-right: 16px; }
       .rep__inner { padding: 35px 16px 0; }
-      .mascot-decoration { display: none; }
-      .footer__mascot { width: 50px; right: 16px; }
+      .footer__mascot-slot { width: 50px; height: 51px; right: 16px; }
     }
   </style>
 </head>
@@ -855,8 +849,6 @@
   <section class="ig-sec sns-sec--gray animate-on-scroll" style="position:relative;">
     <div class="section-bar">国民民主党奈良県総支部連合会 公式 instagramページ</div>
     <div class="ig-sec__inner">
-      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--tr">
-      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--bl">
       <div class="ig-grid">
         <div class="ig-grid__cell">1</div>
         <div class="ig-grid__cell">2</div>
@@ -901,8 +893,6 @@
       </div>
     </div>
     <div class="ig-sec__inner" style="margin-top:20px;">
-      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--tr">
-      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--bl">
       <div class="ig-grid">
         <div class="ig-grid__cell">1</div>
         <div class="ig-grid__cell">2</div>
@@ -922,8 +912,11 @@
   <span id="contact"></span>
   <footer class="footer">
     <p class="footer__copy">Copyright©new-kokumin-nara.jp</p>
-    <img src="マスコットキャラ３.svg" alt="" class="footer__mascot" width="70" height="72">
+    <div id="footerMascotSlot" class="footer__mascot-slot" aria-hidden="true"></div>
   </footer>
+
+  <!-- 追従マスコット（1体・マウス追従／フッターで格納） -->
+  <img src="マスコットキャラ３.svg" alt="" id="floatingMascot" class="floating-mascot" width="70" height="72" aria-hidden="true">
 
   <script>
     (function() {
@@ -952,6 +945,62 @@
         openingTimer = setTimeout(closeOpening, 5200);
       }
       if (openingSkip) openingSkip.addEventListener('click', closeOpening);
+
+      // 追従マスコット（1体）：マウス追従、フッター到達でフッターに格納
+      var floatingMascot = document.getElementById('floatingMascot');
+      var footerEl = document.querySelector('.footer');
+      var footerSlot = document.getElementById('footerMascotSlot');
+      if (floatingMascot && footerEl && footerSlot) {
+        var mascotW = 70, mascotH = 72;
+        var curX = 0, curY = 0, targetX = 0, targetY = 0;
+        var footerMode = false;
+        var rafId = null;
+
+        function getSlotRect() {
+          var r = footerSlot.getBoundingClientRect();
+          return { x: r.left + (r.width - mascotW) / 2, y: r.top + (r.height - mascotH) / 2 };
+        }
+
+        function tick() {
+          if (opening && !opening.classList.contains('is-done')) {
+            floatingMascot.style.visibility = 'hidden';
+          } else {
+            floatingMascot.style.visibility = 'visible';
+          }
+          var slot = getSlotRect();
+          if (footerMode) {
+            targetX = slot.x;
+            targetY = slot.y;
+          }
+          curX += (targetX - curX) * 0.14;
+          curY += (targetY - curY) * 0.14;
+          floatingMascot.style.left = curX + 'px';
+          floatingMascot.style.top = curY + 'px';
+          rafId = requestAnimationFrame(tick);
+        }
+
+        document.addEventListener('mousemove', function(e) {
+          if (footerMode) return;
+          targetX = e.clientX - mascotW / 2;
+          targetY = e.clientY - mascotH / 2;
+        });
+
+        var footerObs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            footerMode = entry.isIntersecting;
+          });
+        }, { threshold: 0.2 });
+        footerObs.observe(footerEl);
+
+        // 初期位置は画面右下
+        targetX = window.innerWidth - mascotW - 24;
+        targetY = window.innerHeight - mascotH - 24;
+        curX = targetX;
+        curY = targetY;
+        floatingMascot.style.left = curX + 'px';
+        floatingMascot.style.top = curY + 'px';
+        rafId = requestAnimationFrame(tick);
+      }
     })();
   </script>
 </body>
