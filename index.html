@@ -169,6 +169,111 @@
     }
     .menu-panel a:hover { color: var(--navy); background: var(--bg-gray); }
 
+    /* ========== オープニングムービー ========== */
+    .opening {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: linear-gradient(180deg, var(--navy) 0%, #1E2D6F 50%, var(--navy) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 60px;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+      pointer-events: auto;
+    }
+    .opening.is-done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .opening__mascot-wrap {
+      margin-bottom: 24px;
+      animation: openingMascot 3.2s ease-out forwards, openingIdle 1.2s ease-in-out 3s infinite;
+    }
+    @keyframes openingIdle {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.03) translateY(-6px); }
+    }
+    .opening__mascot {
+      width: 160px;
+      height: auto;
+      max-height: 280px;
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.25));
+    }
+    @keyframes openingMascot {
+      0% { opacity: 0; transform: scale(0.4) translateY(40px); }
+      20% { opacity: 1; transform: scale(1.08) translateY(-12px); }
+      35% { transform: scale(1) translateY(2px); }
+      50% { transform: scale(1.02) translateY(-2px) rotate(-3deg); }
+      65% { transform: scale(1.02) translateY(-2px) rotate(3deg); }
+      80% { transform: scale(1) translateY(0) rotate(0deg); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .opening__text {
+      text-align: center;
+      color: var(--text-white);
+      margin: 0;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: openingTextIn 0.8s ease-out forwards;
+    }
+    .opening__text--org {
+      font-size: clamp(12px, 2.2vw, 14px);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+      animation-delay: 0.6s;
+      animation-fill-mode: both;
+    }
+    .opening__text--en {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      margin-bottom: 8px;
+      animation-delay: 1.4s;
+      animation-fill-mode: both;
+    }
+    .opening__text--ja {
+      font-size: clamp(16px, 3.2vw, 22px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+    .opening__text--ja .highlight {
+      background: linear-gradient(transparent 60%, var(--accent) 60%);
+      padding: 0 2px;
+    }
+    .opening__text--ja { animation-delay: 2s; animation-fill-mode: both; }
+    .opening__skip {
+      position: absolute;
+      bottom: 20px;
+      right: 24px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.9);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .opening__skip:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.8);
+      color: var(--text-white);
+    }
+    @keyframes openingTextIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* ========== S1. ヒーロー ========== */
     .hero {
       position: relative;
@@ -240,6 +345,8 @@
       bottom: 80px;
       width: 200px;
       height: auto;
+      max-height: 360px;
+      object-fit: contain;
       z-index: 3;
     }
     .hero__banner {
@@ -664,6 +771,17 @@
     </div>
   </div>
 
+  <!-- オープニングムービー（こくうさ） -->
+  <div class="opening" id="opening" aria-live="polite">
+    <div class="opening__mascot-wrap">
+      <img src="マスコットキャラ１.svg" alt="" class="opening__mascot" width="160" height="280" aria-hidden="true">
+    </div>
+    <p class="opening__text opening__text--org">国民民主党 奈良県総支部連合会</p>
+    <p class="opening__text opening__text--en">Show the Flag!</p>
+    <p class="opening__text opening__text--ja">奈良に <span class="highlight">国民民主党</span> の 旗を掲げよう</p>
+    <button type="button" class="opening__skip" id="openingSkip" aria-label="オープニングをスキップ">スキップ</button>
+  </div>
+
   <!-- S1. ヒーロー -->
   <section class="hero">
     <div class="hero__bg">
@@ -674,7 +792,7 @@
         <p class="hero__en">Show the Flag!</p>
         <p class="hero__ja">奈良に <span class="highlight">国民民主党</span> の 旗を掲げよう</p>
       </div>
-      <img src="mascot-hero.svg" alt="" class="hero__mascot" width="200" height="250" aria-hidden="true">
+      <img src="マスコットキャラ１.svg" alt="" class="hero__mascot" width="200" height="350" aria-hidden="true">
     </div>
     <div class="hero__banner">
       <img src="logo-white.svg" alt="" class="header__logo-img">
@@ -775,8 +893,8 @@
   <section class="ig-sec sns-sec--gray animate-on-scroll" style="position:relative;">
     <div class="section-bar">国民民主党奈良県総支部連合会 公式 instagramページ</div>
     <div class="ig-sec__inner">
-      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--tr">
-      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--bl">
+      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--tr">
+      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--bl">
       <div class="ig-grid">
         <div class="ig-grid__cell">1</div>
         <div class="ig-grid__cell">2</div>
@@ -821,8 +939,8 @@
       </div>
     </div>
     <div class="ig-sec__inner" style="margin-top:20px;">
-      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--tr">
-      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--bl">
+      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--tr">
+      <img src="マスコットキャラ３.svg" alt="" class="mascot-decoration mascot-decoration--bl">
       <div class="ig-grid">
         <div class="ig-grid__cell">1</div>
         <div class="ig-grid__cell">2</div>
@@ -842,7 +960,7 @@
   <span id="contact"></span>
   <footer class="footer">
     <p class="footer__copy">Copyright©new-kokumin-nara.jp</p>
-    <img src="mascot-decoration.svg" alt="" class="footer__mascot" width="70" height="90">
+    <img src="マスコットキャラ３.svg" alt="" class="footer__mascot" width="70" height="72">
   </footer>
 
   <script>
@@ -860,6 +978,18 @@
         });
       }, { threshold: 0.1 });
       document.querySelectorAll('.animate-on-scroll').forEach(function(el) { observer.observe(el); });
+
+      var opening = document.getElementById('opening');
+      var openingSkip = document.getElementById('openingSkip');
+      var openingTimer = null;
+      function closeOpening() {
+        if (opening) opening.classList.add('is-done');
+        if (openingTimer) clearTimeout(openingTimer);
+      }
+      if (opening) {
+        openingTimer = setTimeout(closeOpening, 5200);
+      }
+      if (openingSkip) openingSkip.addEventListener('click', closeOpening);
     })();
   </script>
 </body>
