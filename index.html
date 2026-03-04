@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国民民主党 奈良県総支部連合会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- このコードは参考サイト（https://new-kokumin-nara.jp/）のデザインにインスパイアされたオリジナル実装です。
+       デザイン要素（レイアウト・配色・余白設計）を参考にしていますが、
+       コードはすべてゼロから書かれており、参考サイトのコードを複製したものではありません。 -->
+  <style>
+    :root {
+      --navy: #2B3990;
+      --navy-dark: #1E2D6F;
+      --accent: #F5A623;
+      --accent-sub: #E8710A;
+      --bg-white: #FFFFFF;
+      --bg-gray: #F2F2F2;
+      --text: #333333;
+      --text-date: #666666;
+      --text-white: #FFFFFF;
+      --border: #E0E0E0;
+      --footer-bg: #F8F8F8;
+      --footer-text: #666666;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* ========== S0. ヘッダー ========== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 1000;
+    }
+    .header__logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header__logo-img {
+      height: 35px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .header__org {
+      color: var(--text-white);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .header__link {
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 12px;
+    }
+    .header__tel {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-white);
+      font-size: 14px;
+      text-decoration: none;
+    }
+    .header__tel svg { flex-shrink: 0; }
+    .header__contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 2px solid var(--text-white);
+      border-radius: 25px;
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.3s, color 0.3s;
+    }
+    .header__contact:hover {
+      background: var(--text-white);
+      color: var(--navy);
+    }
+    .header__hamburger {
+      width: 30px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+    .header__hamburger span {
+      display: block;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ハンバーガーオーバーレイ */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .menu-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 280px;
+      max-width: 85vw;
+      height: 100%;
+      background: var(--bg-white);
+      padding: 70px 0 40px;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    .menu-overlay.is-open .menu-panel { transform: translateX(0); }
+    .menu-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--text);
+    }
+    .menu-panel a {
+      display: block;
+      padding: 14px 24px;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .menu-panel a:hover { color: var(--navy); background: var(--bg-gray); }
+
+    /* ========== S1. ヒーロー ========== */
+    .hero {
+      position: relative;
+      height: 560px;
+      margin-top: 70px;
+      background: var(--navy) center/cover no-repeat;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--navy) 0%, #4A5DC7 100%);
+    }
+    .hero__bg img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero__inner {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .hero__text-wrap {
+      position: relative;
+      z-index: 2;
+    }
+    .hero__en {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: clamp(32px, 4.5vw, 48px);
+      font-weight: 900;
+      color: var(--text-white);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      margin: 0 0 8px 0;
+      letter-spacing: 0.02em;
+    }
+    .hero__ja {
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 900;
+      color: var(--text-white);
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+    .hero__ja .highlight {
+      background: linear-gradient(transparent 60%, var(--accent) 60%);
+      padding: 0 4px;
+    }
+    .hero__mascot {
+      position: absolute;
+      right: 5%;
+      bottom: 80px;
+      width: 200px;
+      height: auto;
+      z-index: 2;
+    }
+    .hero__banner {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(43, 57, 144, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .hero__banner .header__logo-img {
+      height: 28px;
+    }
+    .hero__banner .header__org {
+      font-size: 13px;
+    }
+
+    /* ========== ネイビーバー見出し（共通） ========== */
+    .section-bar {
+      background: var(--navy);
+      color: var(--text-white);
+      text-align: center;
+      padding: 14px 20px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      width: 100%;
+    }
+
+    /* ========== S2. お知らせ・新着情報 ========== */
+    .news {
+      background: var(--bg-white);
+      padding: 0 0 50px;
+    }
+    .news__list {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 0;
+    }
+    .news__item {
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .news__item:last-child { border-bottom: none; }
+    .news__item a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: color 0.2s;
+    }
+    .news__item a:hover .news__title { color: var(--navy); }
+    .news__date {
+      font-size: 13px;
+      color: var(--text-date);
+      margin-bottom: 4px;
+    }
+    .news__title {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .news__more-wrap {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .btn-more {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--text-white);
+      border: none;
+      border-radius: 25px;
+      padding: 10px 35px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    .btn-more:hover { background: var(--navy-dark); }
+
+    /* ========== S3. トピックス ========== */
+    .topics {
+      background: var(--bg-gray);
+      padding: 50px 24px;
+    }
+    .topics__title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 30px;
+    }
+    .topics__grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .topics__card {
+      background: var(--bg-white);
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .topics__card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      transform: translateY(-3px);
+    }
+    .topics__card a { text-decoration: none; color: inherit; }
+    .topics__img {
+      aspect-ratio: 3/2;
+      object-fit: cover;
+      width: 100%;
+      display: block;
+    }
+    .topics__label {
+      padding: 12px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* ========== S4. ビデオメッセージ ========== */
+    .video-sec {
+      background: var(--bg-white);
+      padding: 50px 24px;
+    }
+    .video-sec__title {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text);
+      margin: 0 0 24px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .video-sec__wrap {
+      max-width: 750px;
+      margin: 0 auto;
+      aspect-ratio: 16/9;
+      background: var(--bg-gray);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-sec__wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+    .video-placeholder {
+      color: var(--text-date);
+      text-align: center;
+      padding: 40px;
+    }
+    .video-placeholder span { font-size: 48px; display: block; margin-bottom: 12px; }
+
+    /* ========== S5. Facebook ========== */
+    .sns-sec {
+      padding: 0 0 50px;
+    }
+    .sns-sec--gray { background: var(--bg-gray); }
+    .sns-sec--white { background: var(--bg-white); }
+    .sns-placeholder {
+      max-width: 500px;
+      margin: 30px auto 0;
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .sns-placeholder__icon { font-size: 48px; margin-bottom: 16px; }
+    .sns-placeholder__text {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .sns-placeholder .btn-more { margin-top: 10px; }
+    .sns-placeholder__note {
+      color: #AAA;
+      font-size: 12px;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    /* ========== S7. Instagram 県連（グリッド + マスコット） ========== */
+    .ig-sec {
+      position: relative;
+      padding: 50px 24px;
+    }
+    .ig-sec__inner {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .mascot-decoration {
+      position: absolute;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .mascot-decoration--tr { top: -15px; right: 20px; width: 100px; }
+    .mascot-decoration--bl { bottom: -15px; left: 20px; width: 90px; }
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 24px;
+    }
+    .ig-grid__cell {
+      aspect-ratio: 1/1;
+      background: linear-gradient(135deg, var(--navy), #4A5DC7);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-white);
+      font-size: 12px;
+    }
+    .ig-grid__cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .ig-sec__follow {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .ig-sec__follow .btn-ig {
+      display: inline-block;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: var(--text-white);
+      padding: 10px 28px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* ========== S8. 党代表の紹介 ========== */
+    .rep {
+      background: var(--bg-white);
+      padding: 0 0 60px;
+    }
+    .rep__inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 0;
+      display: grid;
+      grid-template-columns: 35% 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+    .rep__photo {
+      width: 100%;
+      max-width: 280px;
+      aspect-ratio: 280/380;
+      object-fit: cover;
+      display: block;
+    }
+    .rep__name-ja {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 4px;
+    }
+    .rep__name-en {
+      font-size: 14px;
+      color: #999;
+      margin: 0 0 20px;
+    }
+    .rep__bio {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+      margin: 0 0 24px;
+    }
+    .rep__btn-wrap { margin-top: 24px; }
+
+    /* ========== S9. 杉本あおい Instagram ========== */
+    .ig-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 500px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+    }
+    .ig-profile__avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .ig-profile__avatar--placeholder {
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 24px;
+    }
+    .ig-profile__name { font-size: 16px; font-weight: 700; margin: 0 0 6px; }
+    .ig-profile__desc { font-size: 13px; color: var(--text-date); margin: 0; line-height: 1.5; }
+
+    /* ========== S10. フッター ========== */
+    .footer {
+      background: var(--footer-bg);
+      padding: 25px 24px;
+      text-align: center;
+      position: relative;
+    }
+    .footer__copy {
+      font-size: 13px;
+      color: var(--footer-text);
+      margin: 0;
+    }
+    .footer__mascot {
+      position: absolute;
+      right: 24px;
+      bottom: 10px;
+      width: 70px;
+      height: auto;
+    }
+
+    /* ========== マスコット SVG（こくうさ風） ========== */
+    .mascot-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ========== アニメーション ========== */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== レスポンシブ ========== */
+    @media (max-width: 1099px) {
+      .topics__grid { grid-template-columns: repeat(2, 1fr); }
+      .rep__inner { grid-template-columns: 1fr; }
+      .rep__photo { max-width: 250px; margin: 0 auto; }
+    }
+    @media (max-width: 767px) {
+      .header { height: 55px; padding: 0 16px; }
+      .header__org { display: none; }
+      .header__link { display: none; }
+      .header__tel span { display: none; }
+      .header__contact span { display: none; }
+      .header__nav { gap: 12px; }
+      .hero { height: 380px; margin-top: 55px; }
+      .hero__inner { padding: 40px 16px 80px; }
+      .hero__mascot { width: 120px; right: 10px; bottom: 60px; }
+      .hero__banner { height: 48px; flex-wrap: wrap; padding: 6px 12px; }
+      .hero__banner .header__org { font-size: 11px; }
+      .news__list { padding: 35px 16px 0; }
+      .topics { padding: 35px 16px; }
+      .topics__grid { grid-template-columns: 1fr; gap: 20px; }
+      .video-sec, .ig-sec, .rep { padding-left: 16px; padding-right: 16px; }
+      .rep__inner { padding: 35px 16px 0; }
+      .mascot-decoration { display: none; }
+      .footer__mascot { width: 50px; right: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- S0. ヘッダー -->
+  <header class="header">
+    <div class="header__logo-wrap">
+      <img src="国民ロゴ.svg" alt="国民民主党" class="header__logo-img">
+      <span class="header__org">国民民主党 奈良県総支部連合会</span>
+    </div>
+    <nav class="header__nav">
+      <a href="https://kokumin-minshu.jp/" class="header__link" target="_blank" rel="noopener">公式サイト</a>
+      <a href="tel:0742-31-4881" class="header__tel">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>TEL 0742-31-4881</span>
+      </a>
+      <a href="#contact" class="header__contact">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>お問い合わせ</span>
+      </a>
+    </nav>
+    <button type="button" class="header__hamburger" id="menuOpen" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ハンバーガーメニュー -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-panel">
+      <button type="button" class="menu-close" id="menuClose" aria-label="閉じる">×</button>
+      <a href="#">トップ</a>
+      <a href="#news">お知らせ・新着情報</a>
+      <a href="#">奈良県連役員体制</a>
+      <a href="#">党員・サポーター募集</a>
+      <a href="#">党の取り組み</a>
+      <a href="#">杉本あおいSNS一覧</a>
+      <a href="#">フォトギャラリー</a>
+      <a href="#contact">お問い合わせ</a>
+      <a href="#">アクセス</a>
+      <a href="https://kokumin-minshu.jp/" target="_blank" rel="noopener">国民民主党・公式サイト</a>
+    </div>
+  </div>
+
+  <!-- S1. ヒーロー -->
+  <section class="hero">
+    <div class="hero__bg">
+      <img src="国民FV.jpg" alt="">
+    </div>
+    <div class="hero__inner">
+      <div class="hero__text-wrap">
+        <p class="hero__en">Show the Flag!</p>
+        <p class="hero__ja">奈良に <span class="highlight">国民民主党</span> の 旗を掲げよう</p>
+      </div>
+      <img src="mascot-hero.svg" alt="" class="hero__mascot" width="200" height="250">
+    </div>
+    <div class="hero__banner">
+      <img src="国民ロゴ.svg" alt="" class="header__logo-img">
+      <span class="header__org">国民民主党 奈良県総支部連合会</span>
+    </div>
+  </section>
+
+  <!-- S2. お知らせ・新着情報 -->
+  <section class="news animate-on-scroll" id="news">
+    <div class="section-bar">お知らせ・新着情報</div>
+    <div class="news__list">
+      <article class="news__item">
+        <a href="#">
+          <span class="news__date">2026.03.01</span>
+          <span class="news__title">お知らせサンプルタイトルが入ります（サンプル1）</span>
+        </a>
+      </article>
+      <article class="news__item">
+        <a href="#">
+          <span class="news__date">2026.02.15</span>
+          <span class="news__title">お知らせサンプルタイトルが入ります（サンプル2）</span>
+        </a>
+      </article>
+      <article class="news__item">
+        <a href="#">
+          <span class="news__date">2026.02.01</span>
+          <span class="news__title">お知らせサンプルタイトルが入ります（サンプル3）</span>
+        </a>
+      </article>
+      <article class="news__item">
+        <a href="#">
+          <span class="news__date">2026.01.20</span>
+          <span class="news__title">お知らせサンプルタイトルが入ります（サンプル4）</span>
+        </a>
+      </article>
+      <article class="news__item">
+        <a href="#">
+          <span class="news__date">2026.01.10</span>
+          <span class="news__title">お知らせサンプルタイトルが入ります（サンプル5）</span>
+        </a>
+      </article>
+      <div class="news__more-wrap">
+        <a href="#" class="btn-more">もっと見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3. トピックス -->
+  <section class="topics animate-on-scroll">
+    <h2 class="topics__title">トピックス</h2>
+    <div class="topics__grid">
+      <a href="#" class="topics__card">
+        <img src="トピックス役員体制.jpg" alt="役員体制" class="topics__img">
+        <p class="topics__label">役員体制</p>
+      </a>
+      <a href="#" class="topics__card">
+        <img src="トピックス取り組み.jpg" alt="取り組み" class="topics__img">
+        <p class="topics__label">取り組み</p>
+      </a>
+      <a href="#" class="topics__card">
+        <img src="トピックスフォトギャラリー.jpg" alt="フォトギャラリー" class="topics__img">
+        <p class="topics__label">フォトギャラリー</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- S4. ビデオメッセージ -->
+  <section class="video-sec animate-on-scroll">
+    <p class="video-sec__title">国民民主党奈良県総支部連合会設立大会ビデオメッセージ（榛葉 奈良県総支部連合会代表）</p>
+    <div class="video-sec__wrap">
+      <div class="video-placeholder">
+        <span>▶</span>
+        <p>YouTube動画がここに表示されます</p>
+      </div>
+      <!-- 本番時: iframe に差し替え
+      <iframe src="https://www.youtube.com/embed/XXXX" title="ビデオメッセージ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      -->
+    </div>
+  </section>
+
+  <!-- S5. 公式Facebook -->
+  <section class="sns-sec sns-sec--gray animate-on-scroll">
+    <div class="section-bar">国民民主党奈良県総支部連合会 公式 Facebookページ</div>
+    <div class="sns-placeholder">
+      <div class="sns-placeholder__icon" style="color:#1877F2;">f</div>
+      <p class="sns-placeholder__text">Facebookページの埋め込みがここに表示されます</p>
+      <a href="https://www.facebook.com/newkokuminnara/" target="_blank" rel="noopener" class="btn-more">Facebookページへ →</a>
+      <p class="sns-placeholder__note">※ Facebook Page Plugin 連携後 埋め込みウィジェットに差し替え</p>
+    </div>
+  </section>
+
+  <!-- S6. 公式X -->
+  <section class="sns-sec sns-sec--white animate-on-scroll">
+    <div class="section-bar">国民民主党奈良県総支部連合会 公式 X（旧Twitter）</div>
+    <div class="sns-placeholder">
+      <div class="sns-placeholder__icon" style="color:#000;">𝕏</div>
+      <p class="sns-placeholder__text">X（旧Twitter）タイムラインの埋め込みがここに表示されます</p>
+      <a href="https://twitter.com/newkokuminnara" target="_blank" rel="noopener" class="btn-more">@newkokuminnara をフォロー →</a>
+      <p class="sns-placeholder__note">※ Twitter Timeline Widget 連携後に差し替え</p>
+    </div>
+  </section>
+
+  <!-- S7. 公式Instagram 県連 -->
+  <section class="ig-sec sns-sec--gray animate-on-scroll" style="position:relative;">
+    <div class="section-bar">国民民主党奈良県総支部連合会 公式 instagramページ</div>
+    <div class="ig-sec__inner">
+      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--tr">
+      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--bl">
+      <div class="ig-grid">
+        <div class="ig-grid__cell">1</div>
+        <div class="ig-grid__cell">2</div>
+        <div class="ig-grid__cell">3</div>
+        <div class="ig-grid__cell">4</div>
+        <div class="ig-grid__cell">5</div>
+        <div class="ig-grid__cell">6</div>
+      </div>
+      <div class="ig-sec__follow">
+        <a href="https://www.instagram.com/newkokuminnara/" target="_blank" rel="noopener" class="btn-ig">Instagram でフォロー</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- S8. 党代表の紹介 -->
+  <section class="rep animate-on-scroll">
+    <div class="section-bar">党代表の紹介</div>
+    <div class="rep__inner">
+      <img src="国民たまき.jpg" alt="たまき雄一郎" class="rep__photo">
+      <div>
+        <h2 class="rep__name-ja">たまき 雄一郎</h2>
+        <p class="rep__name-en">Tamaki Yuichiro</p>
+        <div class="rep__bio">
+          <p>私たち国民民主党は、「手取りを増やす」「人生会議（ACP）を当たり前に」など、国民のくらしに直結する政策を掲げ、実現に向けて全力で取り組んでいます。</p>
+          <p>奈良県総支部連合会としても、地域の声を国政に届け、皆さまの信頼に応える活動を進めてまいります。</p>
+        </div>
+        <div class="rep__btn-wrap">
+          <a href="https://tamaki-yuichiro.jp/" target="_blank" rel="noopener" class="btn-more">たまき雄一郎の公式ホームページへ →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S9. 杉本あおい Instagram -->
+  <section class="ig-sec sns-sec--gray animate-on-scroll" style="position:relative;">
+    <div class="section-bar">国民民主党奈良県参議院選挙区第一総支部長 杉本あおい 公式 instagramページ</div>
+    <div class="ig-profile">
+      <div class="ig-profile__avatar ig-profile__avatar--placeholder">杉</div>
+      <div>
+        <p class="ig-profile__name">aoisgmt639</p>
+        <p class="ig-profile__desc">#国民民主党 #手取りを増やす<br>人生会議(ACP)を当たり前に<br>TNR・元保護猫5匹と暮らす🐈‍⬛</p>
+      </div>
+    </div>
+    <div class="ig-sec__inner" style="margin-top:20px;">
+      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--tr">
+      <img src="mascot-decoration.svg" alt="" class="mascot-decoration mascot-decoration--bl">
+      <div class="ig-grid">
+        <div class="ig-grid__cell">1</div>
+        <div class="ig-grid__cell">2</div>
+        <div class="ig-grid__cell">3</div>
+        <div class="ig-grid__cell">4</div>
+        <div class="ig-grid__cell">5</div>
+        <div class="ig-grid__cell">6</div>
+      </div>
+      <p style="text-align:center; margin-top:12px;"><a href="#" style="color:var(--navy);">さらに読み込む</a></p>
+      <div class="ig-sec__follow">
+        <a href="https://www.instagram.com/aoisgmt639/" target="_blank" rel="noopener" class="btn-ig">Instagram でフォロー</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- S10. フッター -->
+  <span id="contact"></span>
+  <footer class="footer">
+    <p class="footer__copy">Copyright©new-kokumin-nara.jp</p>
+    <img src="mascot-decoration.svg" alt="" class="footer__mascot" width="70" height="90">
+  </footer>
+
+  <script>
+    (function() {
+      var menuOpen = document.getElementById('menuOpen');
+      var menuClose = document.getElementById('menuClose');
+      var menuOverlay = document.getElementById('menuOverlay');
+      if (menuOpen) menuOpen.addEventListener('click', function() { menuOverlay.classList.add('is-open'); });
+      if (menuClose) menuClose.addEventListener('click', function() { menuOverlay.classList.remove('is-open'); });
+      if (menuOverlay) menuOverlay.addEventListener('click', function(e) { if (e.target === menuOverlay) menuOverlay.classList.remove('is-open'); });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>
