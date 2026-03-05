@@ -100,7 +100,7 @@
       background: var(--navy);
       color: var(--text-white);
       text-align: center;
-      padding: 14px 20px;
+      padding: clamp(16px, 2.5vw, 24px) 20px;
       font-size: 18px;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -118,17 +118,19 @@
     .yakuin-main {
       background: linear-gradient(180deg, var(--bg-white) 0%, #FAFAFA 30%, #F5F5F5 100%);
       min-height: 60vh;
-      padding: 48px 24px 80px;
+      /* セクション間余白: 上・下を120〜160px級に。左右は画面幅の約12%で呼吸させる */
+      padding: clamp(80px, 12vw, 140px) clamp(24px, 10vw, 80px) clamp(100px, 14vw, 180px);
     }
     .yakuin-main__inner {
-      max-width: 780px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
-    /* リードコピー */
+    /* リードコピー：見出しの下より上を広く（余白ルール）。リストとの間は48〜80px */
     .yakuin-lead {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: clamp(56px, 8vw, 96px);
+      padding: 0 1em;
       opacity: 0;
       transform: translateY(16px);
       animation: leadIn 0.8s ease 0.2s forwards;
@@ -140,28 +142,31 @@
       font-size: clamp(15px, 2vw, 17px);
       font-weight: 500;
       color: var(--text);
-      line-height: 1.9;
+      line-height: 2;
       margin: 0;
       letter-spacing: 0.04em;
+      max-width: 32em;
+      margin-left: auto;
+      margin-right: auto;
     }
     .yakuin-lead__text strong {
       color: var(--navy);
       font-weight: 700;
     }
 
-    /* 役員リスト */
+    /* 役員リスト：カード間に48pxで「非関連は遠く」。余白と密度のコントラスト */
     .yakuin-list {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 32px;
     }
 
     .yakuin-item {
       display: grid;
       grid-template-columns: 160px 1fr;
       align-items: stretch;
-      min-height: 72px;
-      border-radius: 8px;
+      min-height: 88px;
+      border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 2px 12px rgba(43, 57, 144, 0.06);
       opacity: 0;
@@ -186,7 +191,7 @@
     /* 代表だけ少し強調 */
     .yakuin-item--representative .yakuin-item__role {
       font-size: 17px;
-      padding: 18px 16px;
+      padding: 28px 20px;
     }
     .yakuin-item--representative .yakuin-item__role::after {
       content: "";
@@ -194,10 +199,11 @@
       width: 24px;
       height: 3px;
       background: var(--accent);
-      margin-top: 6px;
+      margin-top: 10px;
       border-radius: 2px;
     }
 
+    /* カード内 padding: 32〜48px 級でゆとり */
     .yakuin-item__role {
       display: flex;
       align-items: center;
@@ -207,7 +213,7 @@
       font-size: 15px;
       font-weight: 700;
       letter-spacing: 0.06em;
-      padding: 16px 12px;
+      padding: 24px 20px;
       text-align: center;
     }
 
@@ -215,23 +221,23 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 16px 24px;
+      padding: 28px 40px;
       background: var(--bg-white);
       border: 1px solid var(--border);
       border-left: none;
     }
     .yakuin-item__name {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--text);
-      margin: 0 0 4px;
+      margin: 0 0 6px;
       letter-spacing: 0.02em;
     }
     .yakuin-item__title {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-date);
       margin: 0;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     /* ========== フッター ========== */
@@ -258,19 +264,21 @@
       .header__contact span { display: none; }
       .header__nav { gap: 12px; }
       .section-bar { padding: 10px 16px; font-size: 16px; }
-      .yakuin-main { padding: 32px 16px 60px; }
-      .yakuin-lead { margin-bottom: 40px; }
+      .yakuin-main { padding: clamp(56px, 10vw, 80px) 20px clamp(80px, 12vw, 120px); }
+      .yakuin-lead { margin-bottom: clamp(48px, 6vw, 64px); padding: 0; }
+      .yakuin-list { gap: 24px; }
       .yakuin-item {
         grid-template-columns: 1fr;
         min-height: 0;
       }
       .yakuin-item__role {
-        padding: 12px;
+        padding: 18px 16px;
         font-size: 14px;
       }
-      .yakuin-item--representative .yakuin-item__role { font-size: 15px; padding: 14px; }
-      .yakuin-item__body { padding: 14px 18px; }
-      .yakuin-item__name { font-size: 15px; }
+      .yakuin-item--representative .yakuin-item__role { font-size: 15px; padding: 20px 16px; }
+      .yakuin-item--representative .yakuin-item__role::after { margin-top: 8px; }
+      .yakuin-item__body { padding: 22px 24px; }
+      .yakuin-item__name { font-size: 16px; }
       .footer__mascot-slot { width: 50px; height: 51px; right: 16px; }
     }
   </style>
