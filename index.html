@@ -280,6 +280,7 @@
       position: relative;
       margin-top: 70px;
       background: var(--navy);
+      overflow: hidden;
     }
     .hero__bg {
       position: relative;
@@ -347,6 +348,7 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       width: 100%;
+      box-sizing: border-box;
     }
 
     /* ========== S2. お知らせ・新着情報 ========== */
@@ -687,8 +689,9 @@
       .header__tel span { display: none; }
       .header__contact span { display: none; }
       .header__nav { gap: 12px; }
-      .hero { height: 380px; margin-top: 55px; }
-      .hero__mascot { width: 120px; right: 10px; bottom: 60px; }
+      .hero { margin-top: 55px; min-height: 0; }
+      .section-bar { padding: 10px 16px; font-size: 16px; }
+      .news { margin-top: 0; padding-top: 0; }
       .news__list { padding: 35px 16px 0; }
       .topics { padding: 35px 16px; }
       .topics__grid { grid-template-columns: 1fr; gap: 20px; }
@@ -727,7 +730,7 @@
       <button type="button" class="menu-close" id="menuClose" aria-label="閉じる">×</button>
       <a href="#">トップ</a>
       <a href="#news">お知らせ・新着情報</a>
-      <a href="#">奈良県連役員体制</a>
+      <a href="yakuin.html">奈良県連役員体制</a>
       <a href="#">党員・サポーター募集</a>
       <a href="#">党の取り組み</a>
       <a href="#">杉本あおいSNS一覧</a>
@@ -800,7 +803,7 @@
   <section class="topics animate-on-scroll">
     <h2 class="topics__title">トピックス</h2>
     <div class="topics__grid">
-      <a href="#" class="topics__card">
+      <a href="yakuin.html" class="topics__card">
         <img src="トピックス役員体制.jpg" alt="役員体制" class="topics__img">
         <p class="topics__label">役員体制</p>
       </a>

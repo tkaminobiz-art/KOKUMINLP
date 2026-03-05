@@ -1,0 +1,13 @@
+# フォトギャラリー キャプション一覧（参考サイト順）
+# photo-N.jpg → 元ページのキャプション
+
+photo-01.jpg	IMG 2965
+photo-02.jpg	設立大会の様子
+photo-03.jpg	設立大会の様子
+photo-04.jpg	前原誠司衆議院議員 国民民主党代表代行
+photo-05.jpg	荒井正吾奈良県知事
+photo-06.jpg	立憲民主党奈良県総支部連合会代表（代理 藤野幹事長）
+photo-07.jpg	西田一美連合奈良会長
+photo-08.jpg	街宣活動
+photo-09.jpg	街宣活動
+photo-10.jpg	街宣活動
