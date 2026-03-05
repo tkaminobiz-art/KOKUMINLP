@@ -199,7 +199,52 @@
       transition: opacity 0.2s;
     }
     .supporter-side__link:hover { opacity: 0.85; }
-
+    /* 左カラム：公式デザイン継承（アクセント枠） */
+    .supporter-side__card--accent {
+      border-left-color: var(--accent);
+    }
+    .supporter-side__subtitle {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 18px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .supporter-side__subtitle:first-child { margin-top: 0; }
+    .supporter-side__list--tight { margin-bottom: 0; }
+    .supporter-side__list--tight li { margin-bottom: 4px; }
+    /* 右カラム：ご入会の流れ（公式のステップ風） */
+    .supporter-side__flow {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .supporter-side__flow li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .supporter-side__flow li:last-child { margin-bottom: 0; }
+    .supporter-side__flow-num {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
     /* リード */
     .supporter-lead {
       text-align: center;
@@ -464,13 +509,24 @@
 
   <main class="supporter-main">
     <div class="supporter-main__inner">
-      <aside class="supporter-side supporter-side--left" aria-label="党員・サポーターの違い">
-        <div class="supporter-side__card">
-          <h2 class="supporter-side__title">党員とサポーター</h2>
-          <p class="supporter-side__text">奈良県連では、<strong>党員</strong>または<strong>サポーター</strong>としてご登録いただけます。代表選挙での投票権や、活動への参画の深さが異なります。</p>
-          <ul class="supporter-side__list">
-            <li>党員：運営・政策決定に参画。代表選で投票可（党員票はサポーター票の2倍）</li>
-            <li>サポーター：行事・活動に参加。代表選で投票可（日本国民の方）</li>
+      <aside class="supporter-side supporter-side--left" aria-label="党員・サポーターの違いと特典">
+        <div class="supporter-side__card supporter-side__card--accent">
+          <h2 class="supporter-side__title">党員・サポーターになるには</h2>
+          <p class="supporter-side__text">国民民主党は、地域・世代・分野をこえて、あなたの「もっと良い」を応援します。奈良県連では<strong>党員</strong>または<strong>サポーター</strong>としてご登録いただけます。</p>
+          <h3 class="supporter-side__subtitle">党員</h3>
+          <p class="supporter-side__text">党の活動を支え、代表選など党運営に参画いただけます。</p>
+          <ul class="supporter-side__list supporter-side__list--tight">
+            <li>機関紙『国民民主』をお届け</li>
+            <li>代表選挙の投票権</li>
+            <li>党大会への参加</li>
+            <li>党への意見・提言</li>
+          </ul>
+          <h3 class="supporter-side__subtitle">サポーター</h3>
+          <p class="supporter-side__text">党の活動を応援いただけます。</p>
+          <ul class="supporter-side__list supporter-side__list--tight">
+            <li>機関紙『国民民主』（希望者）</li>
+            <li>代表選挙の投票権（所定期間継続の方）</li>
+            <li>党への意見・提言</li>
           </ul>
           <a href="https://new-kokumin.jp/support/join" class="supporter-side__link" target="_blank" rel="noopener">くわしくは党本部ページへ →</a>
         </div>
@@ -478,7 +534,8 @@
 
       <div class="supporter-center">
       <p class="supporter-lead">
-        <span class="supporter-lead__text">奈良から、国民民主党を支える。ご登録は以下のフォームから。</span><br>
+        <span class="supporter-lead__text">国民民主党は、あなたの「もっと良い」を応援します。</span><br>
+        <span class="supporter-lead__text">奈良から、党を支える一歩を。ご登録は以下のフォームからどうぞ。</span><br>
         <a href="https://new-kokumin.jp/support/join" class="supporter-lead__link" target="_blank" rel="noopener">【党員・サポーターの説明はこちら】</a>
       </p>
 
@@ -565,7 +622,17 @@
       </div>
       </div>
 
-      <aside class="supporter-side supporter-side--right" aria-label="会費の目安・お問い合わせ">
+      <aside class="supporter-side supporter-side--right" aria-label="ご入会の流れ・会費・お問い合わせ">
+        <div class="supporter-side__card">
+          <h2 class="supporter-side__title">ご入会・ご寄付の流れ</h2>
+          <ul class="supporter-side__flow">
+            <li><span class="supporter-side__flow-num" aria-hidden="true">1</span>フォームに必要事項を記入して送信</li>
+            <li><span class="supporter-side__flow-num" aria-hidden="true">2</span>案内に従って会費・寄付金をお振込み</li>
+            <li><span class="supporter-side__flow-num" aria-hidden="true">3</span>国民民主党で審査</li>
+            <li><span class="supporter-side__flow-num" aria-hidden="true">4</span>完了次第、ご連絡いたします</li>
+          </ul>
+          <p class="supporter-side__text" style="margin-top:12px;margin-bottom:0;">詳細は申し込み後、担当者よりご連絡します。</p>
+        </div>
         <div class="supporter-side__card">
           <h2 class="supporter-side__title">会費の目安</h2>
           <table class="supporter-side__table">
