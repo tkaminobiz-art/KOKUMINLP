@@ -225,10 +225,22 @@
 
     .access-cta {
       margin-top: 48px;
-      text-align: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
       opacity: 0;
       transform: translateY(16px);
       animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    }
+    .access-cta__mascot {
+      flex-shrink: 0;
+      width: 64px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
     }
     .access-cta__link {
       display: inline-block;
@@ -292,7 +304,8 @@
       .access-main { padding: clamp(56px, 10vw, 80px) 20px clamp(80px, 12vw, 120px); }
       .access-lead { margin-bottom: 48px; }
       .access-card { padding: 24px; }
-      .access-cta { margin-top: 32px; }
+      .access-cta { margin-top: 32px; flex-direction: column; gap: 16px; }
+      .access-cta__mascot { width: 56px; }
       .access-cta__link { padding: 14px 32px; font-size: 14px; }
       .footer__mascot-slot { width: 50px; height: 51px; right: 16px; }
     }
@@ -378,6 +391,7 @@
       </div>
 
       <div class="access-cta">
+        <img src="マスコットキャラ３.svg" alt="" class="access-cta__mascot" width="64" height="66" aria-hidden="true">
         <a href="contact.html" class="access-cta__link">お問い合わせフォームへ</a>
       </div>
     </div>
