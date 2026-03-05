@@ -120,14 +120,85 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ========== メイン ========== */
+    /* ========== メイン（3カラム） ========== */
     .supporter-main {
-      padding: 64px clamp(24px, 10vw, 80px) clamp(100px, 14vw, 180px);
+      padding: 64px clamp(24px, 5vw, 48px) clamp(80px, 10vw, 140px);
     }
     .supporter-main__inner {
-      max-width: 560px;
+      display: grid;
+      grid-template-columns: 1fr min(560px, 100%) 1fr;
+      gap: clamp(32px, 4vw, 56px);
+      max-width: 1280px;
       margin: 0 auto;
+      align-items: start;
     }
+    .supporter-center {
+      min-width: 0;
+    }
+    /* 左右サイド（デスクトップのみ表示） */
+    .supporter-side {
+      position: sticky;
+      top: 90px;
+    }
+    .supporter-side__card {
+      background: var(--bg-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 24px;
+      border-left: 4px solid var(--navy);
+    }
+    .supporter-side__card + .supporter-side__card {
+      margin-top: 24px;
+    }
+    .supporter-side__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 0 0 14px;
+      letter-spacing: 0.03em;
+    }
+    .supporter-side__text {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--text);
+      margin: 0 0 12px;
+    }
+    .supporter-side__text:last-child { margin-bottom: 0; }
+    .supporter-side__list {
+      margin: 0;
+      padding: 0 0 0 1.2em;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .supporter-side__list li { margin-bottom: 6px; }
+    .supporter-side__table {
+      width: 100%;
+      font-size: 13px;
+      border-collapse: collapse;
+    }
+    .supporter-side__table th,
+    .supporter-side__table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .supporter-side__table th {
+      font-weight: 700;
+      color: var(--navy);
+      width: 38%;
+    }
+    .supporter-side__table td { color: var(--text); }
+    .supporter-side__link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .supporter-side__link:hover { opacity: 0.85; }
 
     /* リード */
     .supporter-lead {
@@ -328,6 +399,14 @@
       left: 0; top: 0; transition: none;
     }
 
+    @media (max-width: 1023px) {
+      .supporter-main__inner {
+        grid-template-columns: 1fr;
+      }
+      .supporter-side {
+        display: none;
+      }
+    }
     @media (max-width: 767px) {
       body { padding-top: 55px; }
       .header { height: 55px; padding: 0 16px; }
@@ -385,6 +464,19 @@
 
   <main class="supporter-main">
     <div class="supporter-main__inner">
+      <aside class="supporter-side supporter-side--left" aria-label="党員・サポーターの違い">
+        <div class="supporter-side__card">
+          <h2 class="supporter-side__title">党員とサポーター</h2>
+          <p class="supporter-side__text">奈良県連では、<strong>党員</strong>または<strong>サポーター</strong>としてご登録いただけます。代表選挙での投票権や、活動への参画の深さが異なります。</p>
+          <ul class="supporter-side__list">
+            <li>党員：運営・政策決定に参画。代表選で投票可（党員票はサポーター票の2倍）</li>
+            <li>サポーター：行事・活動に参加。代表選で投票可（日本国民の方）</li>
+          </ul>
+          <a href="https://new-kokumin.jp/support/join" class="supporter-side__link" target="_blank" rel="noopener">くわしくは党本部ページへ →</a>
+        </div>
+      </aside>
+
+      <div class="supporter-center">
       <p class="supporter-lead">
         <span class="supporter-lead__text">奈良から、国民民主党を支える。ご登録は以下のフォームから。</span><br>
         <a href="https://new-kokumin.jp/support/join" class="supporter-lead__link" target="_blank" rel="noopener">【党員・サポーターの説明はこちら】</a>
@@ -471,6 +563,24 @@
       <div class="supporter-postsubmit" role="note">
         <p style="margin:0;">※ 会費の支払い方法は、申し込み後すぐに届く確認メールの最後にお知らせしています。必ずご確認をお願いいたします。</p>
       </div>
+      </div>
+
+      <aside class="supporter-side supporter-side--right" aria-label="会費の目安・お問い合わせ">
+        <div class="supporter-side__card">
+          <h2 class="supporter-side__title">会費の目安</h2>
+          <table class="supporter-side__table">
+            <tr><th>区分</th><th>四半期</th><th>年額</th></tr>
+            <tr><td>党員</td><td>1,200円</td><td>4,000円</td></tr>
+            <tr><td>サポーター</td><td>600円</td><td>2,000円</td></tr>
+          </table>
+          <p class="supporter-side__text">※金額は目安です。奈良県連では別途ご案内する場合があります。</p>
+        </div>
+        <div class="supporter-side__card">
+          <h2 class="supporter-side__title">不明な点は</h2>
+          <p class="supporter-side__text">会費・登録内容についてご不明な点は、お気軽にお問い合わせください。</p>
+          <a href="access.html" class="supporter-side__link">アクセス・お問い合わせ →</a>
+        </div>
+      </aside>
     </div>
   </main>
 
